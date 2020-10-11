@@ -1,4 +1,0 @@
-sentence = input("Type in a sentence:\n")
-sentence = sentence.upper()
-sentence = str(sentence).replace(" ", " :clap: ")
-print(":clap: " + sentence + " :clap:")
