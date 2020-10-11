@@ -1,6 +1,6 @@
 import logging as log
 import discord
-import os
+import os, re
 import clap_converter
 
 
@@ -9,9 +9,11 @@ class ClapBot(discord.Client):
         log.info('ClapBot started with username {0.name} and id {0.id}'.format(self.user))
 
     async def on_message(self, message):
-        if len(message.mentions) > 0 and message.mentions[0].id == self.user.id:
-            await message.channel.send(clap_converter.clapify(message.content))
+        if len(message.mentions) > 0 and self.user in message.mentions and message.content.startswith("> "):
+            pattern = re.compile(r'> (.+)\n')
+            message_to_clapify = pattern.match(message.content).group(1)
+            await message.channel.send(clap_converter.clapify(message_to_clapify))
 
 
 client = ClapBot()
-client.run(os.getenv('DISCORD_KEY'))
+client.run(os.getenv('CLAPIFY_KEY'))
