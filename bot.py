@@ -10,11 +10,8 @@ class ClapBot(discord.Client):
 
     async def on_message(self, message):
         if len(message.mentions) > 0 and self.user in message.mentions and message.content.startswith("> "):
-            messages = list(
-                filter(lambda msg: msg.author != self.user, await message.channel.history(limit=6).flatten()))
-
             pattern = re.compile(r'> (.+)\n')
-            message_to_clapify = pattern.match(messages[2].content).group(1)
+            message_to_clapify = pattern.match(message.content).group(1)
             await message.channel.send(clap_converter.clapify(message_to_clapify))
 
 
